@@ -3,6 +3,7 @@ package sda.com.library.rest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import sda.com.library.dto.BookDTO;
+import sda.com.library.entity.Result;
 import sda.com.library.service.BookService;
 
 import java.util.List;
@@ -78,6 +79,12 @@ public class BookController {
     public List<BookDTO> sortASCByNrOfPages(){
         List<BookDTO> bookDTOSList = bookService.sortASCByNrOfPages();
         return bookDTOSList;
+    }
+
+    @GetMapping("showBooksAndPublishingHouses")
+    public List<Result> showBooksAndPublishingHouses(){
+        List<Result> resultsList = bookService.showBooksAndPublishingHouses();
+        return resultsList;
     }
 
 

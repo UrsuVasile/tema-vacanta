@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import sda.com.library.dao.BookDAO;
 import sda.com.library.dto.BookDTO;
 import sda.com.library.entity.Book;
+import sda.com.library.entity.Result;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -199,6 +200,11 @@ public class BookService {
             bookDTOSList.add(bookDTO);
         }
         return bookDTOSList;
+    }
+
+    public List<Result> showBooksAndPublishingHouses(){
+        List<Result> resultsList = bookDAO.showBooksAndPublishingHouses();
+        return resultsList;
     }
 
 }

@@ -4,19 +4,21 @@ import javax.persistence.*;
 
 @NamedQueries({
         @NamedQuery(name = "find_all_book_borrowed",
-        query = "Select b from Book b where b.borrowed = true"),
+                query = "Select b from Book b where b.borrowed = true"),
         @NamedQuery(name = "find_all_books_non_barrowed",
-        query = "Select b from Book b where b.borrowed = false"),
+                query = "Select b from Book b where b.borrowed = false"),
         @NamedQuery(name = "find_books_by_borrowed_field",
-        query = "Select b from Book b where b.borrowed = :borrowed"),
+                query = "Select b from Book b where b.borrowed = :borrowed"),
         @NamedQuery(name = "show_books_by_nr_of_volumes",
-        query = "Select b from Book b where b.nrOfVolumes = :nrOfVolumes"),
+                query = "Select b from Book b where b.nrOfVolumes = :nrOfVolumes"),
         @NamedQuery(name = "findAllBooksBorrowedTo",
-        query = "Select b from Book b where b.borrowedTo=:borrowedTo"),
+                query = "Select b from Book b where b.borrowedTo=:borrowedTo"),
         @NamedQuery(name = "showAllBooksFromCategory",
-        query = "Select b from Book b where b.category = :category"),
+                query = "Select b from Book b where b.category = :category"),
         @NamedQuery(name = "find_books_from_category_and_borrowed",
-        query = "Select b from Book b where b.category = :category and b.borrowed=:borrowed")
+                query = "Select b from Book b where b.category = :category and b.borrowed=:borrowed"),
+        @NamedQuery(name = "show_all_books_and_publishing_houses",
+                query = "select new sda.com.library.entity.Result(b.title, b.author, p.publishingHouseName) from Book b inner join b.publishingHouse p")
 })
 
 @Entity
@@ -51,6 +53,10 @@ public class Book {
 
     @Column(name = "category")
     private String category;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_publishing_house")
+    private PublishingHouse publishingHouse;
 
     public String getTitle() {
         return title;
@@ -99,6 +105,7 @@ public class Book {
     public void setBorrowedTo(String borrowedTo) {
         this.borrowedTo = borrowedTo;
     }
+
     public boolean getBorrowed() {
         return borrowed;
     }
@@ -110,4 +117,6 @@ public class Book {
     public void setCategory(String category) {
         this.category = category;
     }
+
+
 }

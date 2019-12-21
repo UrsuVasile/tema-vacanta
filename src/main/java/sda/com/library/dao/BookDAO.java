@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import org.w3c.dom.ls.LSOutput;
 import sda.com.library.config.HibernateUtil;
 import sda.com.library.entity.Book;
+import sda.com.library.entity.Result;
 
 import javax.persistence.Query;
 import java.util.List;
@@ -110,11 +111,22 @@ public class BookDAO {
     // Aceasta metoda afiseaza toate cartile din BD in functie de nr. de pagini, crescator.
     public List<Book> sortASCByNrOfPages(){
         hibernateUtil.openSessionAndTransaction();
-        String sortQuery = "Select b from Book b order by b.nrOfPages asc";
+        String sortQuery = "Select b from Book b order by b.nrOfPages desc";
         Query query = hibernateUtil.session.createQuery(sortQuery);
         List<Book> booksList = query.getResultList();
         hibernateUtil.closeSessionAndTransaction();
         return booksList;
+    }
+
+    //Aceasta metoda afiseaza titlurile si autorii cartilor + numele editurilor la care au aparut
+    //Pentru edituri am facut tabel separat in BD, deci si clasa separata cu relatie de @OneToMany intre entitati
+    //Metoda foloseste un query hql de inner join intre entitati
+    public List<Result> showBooksAndPublishingHouses(){
+        hibernateUtil.openSessionAndTransaction();
+        Query query = hibernateUtil.session.createNamedQuery("show_all_books_and_publishing_houses");
+        List<Result> resultsList = query.getResultList();
+        hibernateUtil.closeSessionAndTransaction();
+        return resultsList;
     }
 
 }
